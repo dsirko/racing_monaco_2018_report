@@ -1,6 +1,14 @@
 import datetime
 
 
+def build_report():
+    pass
+
+
+def print_report():
+    pass
+
+
 def read_text_file(file_path):
     with open(file_path, 'r') as file:
         contents = file.read()
@@ -24,7 +32,7 @@ def sort_data(split_items):
 
         
 # work with start log
-text_data_start_log = read_text_file("start.log.txt")
+text_data_start_log = read_text_file("log/start.log.txt")
 splited_start_log = split_data(text_data_start_log)
 # print (f"SPLITED START LOG: \n {splited_start_log}")
 sorted_start_log = sort_data(splited_start_log)
@@ -34,7 +42,7 @@ for i in range(len(sorted_start_log)):
 
 
 # work with end log
-text_data_end_log = read_text_file("end.log.txt")
+text_data_end_log = read_text_file("log/end.log.txt")
 splited_end_log = split_data(text_data_end_log)
 # print (f"SPLITED END LOG: \n {splited_end_log}")
 sorted_end_log = sort_data(splited_end_log)
@@ -44,7 +52,7 @@ for i in range(len(sorted_end_log)):
 
 
 # work eith abbreviations
-text_data_abbreviations = read_text_file("abbreviations.txt")
+text_data_abbreviations = read_text_file("log/abbreviations.txt")
 splited_abbreviations = text_data_abbreviations.split('\n')
 # print(splited_abbreviations)
 # for i in range(len(splited_abbreviations))
@@ -72,7 +80,7 @@ for name in sorted_abbreviations:
 
 
 
-file_path_finish = "end.log.txt"
+file_path_finish = "log/end.log.txt"
 text_data_finish = read_text_file(file_path_finish)
 sp_t_d_finish = text_data_finish.split()
 sp_all_el_finish = []
@@ -113,7 +121,7 @@ for i in range(len(start_log_sorted)):
 for i in start_log_sorted:
     print(i)
 
-file_path_finish = "abbreviations.txt"
+file_path_finish = "log/abbreviations.txt"
 text_data_finish = read_text_file(file_path_finish)
 sp_t_d_finish = text_data_finish.split('\n')
 names_of_drivers = []
