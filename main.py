@@ -1,5 +1,5 @@
 import datetime
-from email.utils import format_datetime
+from datetime import timedelta
 
 
 def build_report():
@@ -91,8 +91,6 @@ for i in range(len(sorted_start_log)):
 
 for abbrev, time in zip(sorted_split_abbreviations, time_result):
     abbrev.append(time)
-# for i in range(len(sorted_split_abbreviations)):
-#     sorted_split_abbreviations[i].append(time_result[i])
 
 prereport = sorted(sorted_split_abbreviations, key=lambda x: x[3])
 
@@ -106,3 +104,20 @@ print(*prereport, sep='\n')
 #     last_report.append(f"{i + 1}. {sorted_split_abbreviations[i][1]} | {sorted_split_abbreviations[i][2]} | {time_result[i]}")
 #     print(last_report[i])
 
+
+# Function to format timedelta to MM:SS.mmm
+def format_timedelta(td):
+    total_seconds = td.total_seconds()
+    minutes = int(total_seconds // 60)
+    seconds = int(total_seconds % 60)
+    milliseconds = int((total_seconds % 1) * 1000)
+    return f"{minutes:02}:{seconds:02}.{milliseconds:03}"
+
+
+# print report
+for i in range(len(prereport)):
+    if i == 15:
+        print("---------------------------------------------------------")
+
+    formatted_time = format_timedelta(prereport[i][3])
+    print(f"{i + 1}. {prereport[i][1]} | {prereport[i][2]} | {formatted_time} ")
