@@ -1,4 +1,5 @@
 import datetime
+from email.utils import format_datetime
 
 
 def build_report():
@@ -34,34 +35,23 @@ def sort_data(split_items):
 text_data_start_log = read_text_file("log/start.log.txt")
 splited_start_log = split_data(text_data_start_log)
 sorted_start_log = sort_data(splited_start_log)
-# print("START\n")
-# for i in range(len(sorted_start_log)):
-#     print(sorted_start_log[i])
+# print("\nSTART", *sorted_start_log, sep='\n')
 
 
 # work with end log
 text_data_end_log = read_text_file("log/end.log.txt")
 splited_end_log = split_data(text_data_end_log)
 sorted_end_log = sort_data(splited_end_log)
-# print("\nEND")
-# for i in range(len(sorted_end_log)):
-#     print(sorted_end_log[i])
+# print("\nEND", *sorted_end_log, sep='\n')
 
 
 # work eith abbreviations
 text_data_abbreviations = read_text_file("log/abbreviations.txt")
 splited_abbreviations = split_data(text_data_abbreviations)
 sorted_split_abbreviations = sort_data(splited_abbreviations)
-# print("\nABB")
-# for i in range(len(sorted_split_abbreviations)):
-#     print(sorted_split_abbreviations[i])
+# print("\nABBREVIATIONS", *sorted_split_abbreviations, sep='\n')
 
 
-# print(sorted_start_log[0])
-# print(sorted_end_log[0])
-
-
-#
 # time_res = []
 #
 # for i in sorted_start_log:
@@ -92,39 +82,21 @@ for i in range(len(sorted_start_log)):
     timestamp2 = datetime.datetime.strptime(timestamp_end_str,'%H:%M:%S.%f')
     # Calculate the difference
     difference = timestamp2 - timestamp1
-    difference = datetime.datetime.strptime(str(difference), '%H:%M:%S.%f')
+    minutes, seconds = divmod(difference.seconds, 60)
+    seconds += difference.microseconds / 1e6
     # Print the difference in seconds
-    print(type(difference), difference)
-
-    # # Extract minutes and seconds
-    # minutes = difference.seconds // 60  # Use floor division to get whole minutes
-    # seconds = difference.seconds % 60  # Use modulo to get remaining seconds
-    # milliseconds = difference.microseconds // 1000  # Get milliseconds
-    #
-    # formatted_output = f"{minutes}:{seconds:02}.{milliseconds:03}"
-    # print(type(formatted_output))
-    # time_result.append(formatted_output)
     time_result.append(difference)
 
 
-# print("\nRESULT TIME")
-# for i in time_result:
-#     print(i)
 
-prereport = []
-for i in range(len(sorted_split_abbreviations)):
-    sorted_split_abbreviations[i].append(time_result[i])
-    # print(sorted_split_abbreviations[i])
+for abbrev, time in zip(sorted_split_abbreviations, time_result):
+    abbrev.append(time)
+# for i in range(len(sorted_split_abbreviations)):
+#     sorted_split_abbreviations[i].append(time_result[i])
 
-prereport = sorted(sorted_split_abbreviations, key=lambda x: x[3], reverse=True)
+prereport = sorted(sorted_split_abbreviations, key=lambda x: x[3])
 
-for i in range(len(prereport)):
-    print(prereport[i])
-
-
-print(type(prereport[0][3]))
-
-
+print(*prereport, sep='\n')
 
 
 
