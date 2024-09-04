@@ -89,9 +89,10 @@ for i in range(len(sorted_start_log)):
     timestamp_end_str = sorted_end_log[i][1]
     # Convert strings to datetime objects
     timestamp1 = datetime.datetime.strptime(timestamp_start_str, '%H:%M:%S.%f')
-    timestamp2 = datetime.datetime.strptime(timestamp_end_str, '%H:%M:%S.%f')
+    timestamp2 = datetime.datetime.strptime(timestamp_end_str,'%H:%M:%S.%f')
     # Calculate the difference
     difference = timestamp2 - timestamp1
+    difference = datetime.datetime.strptime(str(difference), '%H:%M:%S.%f')
     # Print the difference in seconds
     print(type(difference), difference)
 
