@@ -1,4 +1,5 @@
 import datetime
+import argparse
 
 
 def read_text_file(file_path):
@@ -73,5 +74,43 @@ def process_logs():
     print_report(report)
 
 
+def main():
+    parser = argparse.ArgumentParser(description='Generate a race report')
+    parser.add_argument('--files', help='Path to the folder containing log files')
+    parser.add_argument('--driver', help='Filter report by driver name')
+    parser.add_argument('--asc', action='store_true', help='Sort report in ascending order')
+    parser.add_argument('--desc', action='store_true', help='Sort report in descending order')
+    args = parser.parse_args()
+
+    if args.files:
+        # Process start log
+        start_log = sort_data(split_data(read_text_file(f"{args.files}/start.log.txt")))
+
+        # Process end log
+        end_log = sort_data(split_data(read_text_file(f"{args.files}/end.log.txt")))
+
+        # Process abbreviations
+        abbreviations = sort_data(split_data(read_text_file(f"{args.files}/abbreviations.txt")))
+
+        # Calculate time differences
+        time_differences = calculate_time_differences(start_log, end_log)
+
+        # Build and print the report
+        report = build_report(abbreviations, time_differences)
+
+        if args.driver:
+            report = [entry for entry in report if entry[1] == args.driver]
+
+        if args.asc:
+            report = sorted(report, key=lambda x: x[3])
+        elif args.desc:
+            report = sorted(report, key=lambda x: x[3], reverse=True)
+
+        print_report(report)
+    else:
+        print("Error: --files argument is required")
+
+
 if __name__ == "__main__":
-    process_logs()
+    main()
+
